@@ -5,6 +5,11 @@
  */
 package texteditor;
 
+import java.awt.print.PrinterException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Badar Muneer
@@ -36,7 +41,7 @@ public class TextEditor extends javax.swing.JFrame {
         newMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        printMenuItem = new javax.swing.JMenuItem();
         editeMenu = new javax.swing.JMenu();
         copyMenuItem = new javax.swing.JMenuItem();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -89,9 +94,14 @@ public class TextEditor extends javax.swing.JFrame {
         });
         fileMenu.add(saveMenuItem);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem2.setText("Print");
-        fileMenu.add(jMenuItem2);
+        printMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        printMenuItem.setText("Print");
+        printMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(printMenuItem);
 
         menuBar.add(fileMenu);
 
@@ -135,6 +145,11 @@ public class TextEditor extends javax.swing.JFrame {
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
         closeMenu.add(exitMenuItem);
 
         menuBar.add(closeMenu);
@@ -186,6 +201,23 @@ public class TextEditor extends javax.swing.JFrame {
         textArea.cut();
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        // TODO add your handling code here:
+        
+        System.exit(0);
+    }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void printMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printMenuItemActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            textArea.print();
+        } catch (PrinterException ex) 
+        {
+            JOptionPane.showMessageDialog(this,"Eror: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_printMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -229,13 +261,13 @@ public class TextEditor extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
+    private javax.swing.JMenuItem printMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
