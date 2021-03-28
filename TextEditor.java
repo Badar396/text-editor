@@ -6,8 +6,12 @@
 package texteditor;
 
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,11 +56,16 @@ public class TextEditor extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("TextEditor");
+        setTitle("Untitled - TextEditor");
 
         textArea.setColumns(20);
         textArea.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         textArea.setRows(5);
+        textArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textAreaKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(textArea);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -67,7 +76,7 @@ public class TextEditor extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
         );
 
         fileMenu.setText("File");
@@ -79,10 +88,20 @@ public class TextEditor extends javax.swing.JFrame {
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         newMenuItem.setText("New");
+        newMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(newMenuItem);
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         openMenuItem.setText("Open");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -172,6 +191,8 @@ public class TextEditor extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
@@ -217,6 +238,55 @@ public class TextEditor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Eror: "+ex.getMessage());
         }
     }//GEN-LAST:event_printMenuItemActionPerformed
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        // TODO add your handling code here:
+        
+        JFileChooser fileChooser=new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int choice=fileChooser.showOpenDialog(this);
+        if(choice==JFileChooser.CANCEL_OPTION) return;
+        File file=null;
+        Scanner input=null;
+        if(choice==JFileChooser.APPROVE_OPTION)
+        {
+           file=fileChooser.getSelectedFile();
+           this.setTitle(file.getName());
+        }
+        
+        try 
+        {
+            StringBuffer buffer=new StringBuffer();
+            input=new Scanner(file);
+            while(input.hasNext())
+            {
+                buffer.append(input.nextLine());
+                buffer.append("\n");
+            }
+            
+            textArea.setText(buffer+"");
+            input.close();
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            JOptionPane.showMessageDialog(this,"Error: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
+        // TODO add your handling code here:
+        
+        //
+        if(textArea.getText().length()>0) JOptionPane.showMessageDialog(this,"You have not Saved the file");
+        this.setTitle("Untitled - TextEditor");
+        textArea.setText("");
+    }//GEN-LAST:event_newMenuItemActionPerformed
+
+    private void textAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textAreaKeyTyped
+        // TODO add your handling code here:
+        
+        this.setTitle("Untitled* - TextEditor");
+    }//GEN-LAST:event_textAreaKeyTyped
 
     /**
      * @param args the command line arguments
