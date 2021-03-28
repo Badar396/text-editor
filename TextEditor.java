@@ -29,17 +29,19 @@ public class TextEditor extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         mainPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        fileMenu = new javax.swing.JMenu();
         newMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        editeMenu = new javax.swing.JMenu();
         copyMenuItem = new javax.swing.JMenuItem();
         cutMenuItem = new javax.swing.JMenuItem();
         pasteMenuItem = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        closeMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -47,26 +49,36 @@ public class TextEditor extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TextEditor");
 
+        textArea.setColumns(20);
+        textArea.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        textArea.setRows(5);
+        jScrollPane1.setViewportView(textArea);
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 539, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        fileMenu.setText("File");
+        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuActionPerformed(evt);
+            }
+        });
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         newMenuItem.setText("New");
-        jMenu1.add(newMenuItem);
+        fileMenu.add(newMenuItem);
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         openMenuItem.setText("Open");
-        jMenu1.add(openMenuItem);
+        fileMenu.add(openMenuItem);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         saveMenuItem.setText("Save");
@@ -75,37 +87,57 @@ public class TextEditor extends javax.swing.JFrame {
                 saveMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(saveMenuItem);
+        fileMenu.add(saveMenuItem);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem2.setText("Print");
-        jMenu1.add(jMenuItem2);
+        fileMenu.add(jMenuItem2);
 
-        menuBar.add(jMenu1);
+        menuBar.add(fileMenu);
 
-        jMenu2.setText("Edit");
+        editeMenu.setText("Edit");
+        editeMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editeMenuActionPerformed(evt);
+            }
+        });
 
         copyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         copyMenuItem.setText("Copy");
-        jMenu2.add(copyMenuItem);
+        copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyMenuItemActionPerformed(evt);
+            }
+        });
+        editeMenu.add(copyMenuItem);
 
         cutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         cutMenuItem.setText("Cut");
-        jMenu2.add(cutMenuItem);
+        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutMenuItemActionPerformed(evt);
+            }
+        });
+        editeMenu.add(cutMenuItem);
 
         pasteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         pasteMenuItem.setText("Paste");
-        jMenu2.add(pasteMenuItem);
+        pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteMenuItemActionPerformed(evt);
+            }
+        });
+        editeMenu.add(pasteMenuItem);
 
-        menuBar.add(jMenu2);
+        menuBar.add(editeMenu);
 
-        jMenu3.setText("Close");
+        closeMenu.setText("Close");
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         exitMenuItem.setText("Exit");
-        jMenu3.add(exitMenuItem);
+        closeMenu.add(exitMenuItem);
 
-        menuBar.add(jMenu3);
+        menuBar.add(closeMenu);
 
         setJMenuBar(menuBar);
 
@@ -126,6 +158,33 @@ public class TextEditor extends javax.swing.JFrame {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
+        // TODO add your handling code here:        
+        
+        
+        textArea.copy();
+    }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void editeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editeMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editeMenuActionPerformed
+
+    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fileMenuActionPerformed
+
+    private void pasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteMenuItemActionPerformed
+        // TODO add your handling code here:
+        
+        textArea.paste();
+    }//GEN-LAST:event_pasteMenuItemActionPerformed
+
+    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+        // TODO add your handling code here:
+        
+        textArea.cut();
+    }//GEN-LAST:event_cutMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,19 +222,21 @@ public class TextEditor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu closeMenu;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
+    private javax.swing.JMenu editeMenu;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
