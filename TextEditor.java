@@ -6,8 +6,11 @@
 package texteditor;
 
 import java.awt.print.PrinterException;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,11 +21,9 @@ import javax.swing.JOptionPane;
  *
  * @author Badar Muneer
  */
-public class TextEditor extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TextEditor
-     */
+public class TextEditor extends javax.swing.JFrame 
+{
+    private boolean isFileOpened;
     public TextEditor() {
         initComponents();
     }
@@ -191,6 +192,26 @@ public class TextEditor extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
+        if(isFileOpened)
+        {
+            File file=new File(this.getTitle());
+            try 
+            {
+                BufferedWriter writer=new BufferedWriter(new FileWriter(file));
+                String[] data=textArea.getText().split("\n");
+                
+                for(int i=0; i<data.length; i++)
+                {
+                    writer.write(data[i]);
+                    System.out.println(data[i]);
+                }
+            } 
+            catch (IOException ex) 
+            {
+          //      Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
+                  JOptionPane.showMessageDialog(this,"Error: "+ex.getMessage());
+            }
+        }
         
         
     }//GEN-LAST:event_saveMenuItemActionPerformed
@@ -251,7 +272,7 @@ public class TextEditor extends javax.swing.JFrame {
         if(choice==JFileChooser.APPROVE_OPTION)
         {
            file=fileChooser.getSelectedFile();
-           this.setTitle(file.getName());
+           this.setTitle(file.getPath());
         }
         
         try 
@@ -266,6 +287,7 @@ public class TextEditor extends javax.swing.JFrame {
             
             textArea.setText(buffer+"");
             input.close();
+            this.isFileOpened=true;
         } 
         catch (FileNotFoundException ex) 
         {
@@ -285,7 +307,7 @@ public class TextEditor extends javax.swing.JFrame {
     private void textAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textAreaKeyTyped
         // TODO add your handling code here:
         
-        this.setTitle("Untitled* - TextEditor");
+    //    this.setTitle("Untitled* - TextEditor");
     }//GEN-LAST:event_textAreaKeyTyped
 
     /**
