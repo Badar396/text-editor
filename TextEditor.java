@@ -12,8 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -24,6 +22,7 @@ import javax.swing.JOptionPane;
 public class TextEditor extends javax.swing.JFrame 
 {
     private boolean isFileOpened;
+    private String filePath;
     public TextEditor() {
         initComponents();
     }
@@ -194,23 +193,46 @@ public class TextEditor extends javax.swing.JFrame
         // TODO add your handling code here:
         if(isFileOpened)
         {
-            File file=new File(this.getTitle());
+            File file=new File(filePath);
+            System.out.println(filePath);
             try 
             {
-                BufferedWriter writer=new BufferedWriter(new FileWriter(file));
-                String[] data=textArea.getText().split("\n");
+                BufferedWriter writer=new BufferedWriter(new FileWriter(file,false));
                 
-                for(int i=0; i<data.length; i++)
-                {
-                    writer.write(data[i]);
-                    System.out.println(data[i]);
-                }
+                writer.write(textArea.getText());
+                
+                writer.close();
             } 
             catch (IOException ex) 
             {
           //      Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
                   JOptionPane.showMessageDialog(this,"Error: "+ex.getMessage());
             }
+        }
+        
+        else
+        {
+            JFileChooser fileChooser=new JFileChooser("E:");
+            fileChooser.setDialogTitle("Select path");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int choice=fileChooser.showSaveDialog(this);
+            if(choice==JFileChooser.CANCEL_OPTION) return;
+            String absolutePath=fileChooser.getSelectedFile().getAbsolutePath();
+            File file=new File(absolutePath);
+            if(choice==JFileChooser.APPROVE_OPTION)
+                try 
+                {
+                    BufferedWriter writer=new BufferedWriter(new FileWriter(file,false));
+                
+                    writer.write(textArea.getText());
+                
+                    writer.close();
+                
+                    this.setTitle(absolutePath);
+                } catch (IOException ex) 
+                {
+                    JOptionPane.showMessageDialog(null,"Error:"+ex.getMessage());
+                }
         }
         
         
@@ -263,8 +285,9 @@ public class TextEditor extends javax.swing.JFrame
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
         // TODO add your handling code here:
         
-        JFileChooser fileChooser=new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        JFileChooser fileChooser=new JFileChooser("E:");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle("Open file");
         int choice=fileChooser.showOpenDialog(this);
         if(choice==JFileChooser.CANCEL_OPTION) return;
         File file=null;
@@ -273,6 +296,7 @@ public class TextEditor extends javax.swing.JFrame
         {
            file=fileChooser.getSelectedFile();
            this.setTitle(file.getPath());
+           filePath=file.getAbsolutePath();
         }
         
         try 
@@ -319,22 +343,22 @@ public class TextEditor extends javax.swing.JFrame
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(TextEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
         //</editor-fold>
 
         /* Create and display the form */
